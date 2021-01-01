@@ -14,7 +14,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Alarm',
-      theme: ThemeData(),
       home: HomePage(title: 'Flutter Alarm'),
     );
   }

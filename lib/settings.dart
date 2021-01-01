@@ -12,20 +12,89 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Colors.purple[200], Colors.blue[200]],
-        ),
-      ),
+      color: Color(0xffF1F8FF),
       child: Center(
         child: SafeArea(
-          child: ListView(padding: const EdgeInsets.all(8.0), children: [
-            Container(
-              child: Text("phone number"),
-            ),
-          ]),
+          child: Padding(
+            padding: EdgeInsets.only(left: 15),
+            child: ListView(padding: const EdgeInsets.all(0.0), children: [
+              Padding(
+                padding: EdgeInsets.only(top: 30, left: 20, bottom: 10),
+                child: Text(
+                  "Settings",
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              ListTile(
+                title: Text("Change number"),
+                leading: IconButton(
+                  icon: Icon(
+                    Icons.phone,
+                    size: 18,
+                    color: Color(0xff0785CC),
+                  ),
+                  highlightColor: Colors.redAccent,
+                  onPressed: () {
+                    print("change");
+                  },
+                ),
+                onTap: () {
+                  print("tapped");
+                },
+              ),
+              ListTile(
+                title: Text("Manage sounds"),
+                leading: IconButton(
+                  icon: Icon(
+                    Icons.hearing,
+                    size: 18,
+                    color: Color(0xff872EF9),
+                  ),
+                  highlightColor: Colors.redAccent,
+                  onPressed: () {
+                    print("change");
+                  },
+                ),
+                onTap: () {
+                  print("tapped");
+                },
+              ),
+              ListTile(
+                title: Text("Contribute"),
+                leading: IconButton(
+                  icon: Icon(
+                    Icons.favorite_border,
+                    size: 18,
+                    color: Color(0xffFA1FCA),
+                  ),
+                  highlightColor: Colors.redAccent,
+                  onPressed: () {
+                    print("change");
+                  },
+                ),
+                onTap: () {
+                  print("Contribute");
+                },
+              ),
+              ListTile(
+                title: Text("Logout"),
+                leading: IconButton(
+                  icon: Icon(
+                    Icons.phone,
+                    size: 18,
+                    color: Color(0xffEB2B2B),
+                  ),
+                  highlightColor: Colors.redAccent,
+                  onPressed: () {
+                    print("change");
+                  },
+                ),
+                onTap: () {
+                  print("Logout");
+                },
+              ),
+            ]),
+          ),
         ),
       ),
     );

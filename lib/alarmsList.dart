@@ -13,19 +13,23 @@ class AlarmsListPage extends StatefulWidget {
 
 class _AlarmsListPageState extends State<AlarmsListPage> {
   String _time;
+  String _date;
 
   @override
   void initState() {
     super.initState();
-    Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime());
+    Timer.periodic(Duration(seconds: 1), (Timer t) => _getDateTime());
   }
 
-  void _getTime() {
-    print("getting time");
-    final String formattedDateTime =
-        DateFormat('kk:mm\nMM-dd').format(DateTime.now()).toString();
+  void _getDateTime() {
+    var _dateTime = new DateTime.now();
+    final String formattedDate =
+        DateFormat('dd MMM').format(_dateTime).toString();
+    final String formattedTime =
+        DateFormat('kk:mm').format(_dateTime).toString();
     setState(() {
-      _time = formattedDateTime;
+      _time = formattedTime;
+      _date = formattedDate;
     });
   }
 
@@ -62,11 +66,22 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffF1F8FF),
       body: Center(
         child: SafeArea(
           child: Container(
             child: Column(children: [
-              Text(_time),
+              Padding(
+                padding: EdgeInsets.only(top: 65.0, bottom: 5.0),
+                child: Text(
+                  _date,
+                  style: TextStyle(fontSize: 18.0),
+                ),
+              ),
+              Text(
+                _time,
+                style: TextStyle(fontSize: 55.0),
+              ),
               SizedBox(
                 height: 20,
               ),

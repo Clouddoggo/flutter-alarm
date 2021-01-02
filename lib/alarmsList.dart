@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'storage.dart';
+import 'addAlarm.dart';
 
 class AlarmsListPage extends StatefulWidget {
   AlarmsListPage({Key key}) : super(key: key);
@@ -15,11 +16,11 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
   String _time;
   String _date;
 
-  @override
-  void initState() {
-    super.initState();
-    Timer.periodic(Duration(seconds: 1), (Timer t) => _getDateTime());
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   Timer.periodic(Duration(seconds: 1), (Timer t) => _getDateTime());
+  // }
 
   void _getDateTime() {
     var _dateTime = new DateTime.now();
@@ -74,12 +75,12 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
               Padding(
                 padding: EdgeInsets.only(top: 65.0, bottom: 5.0),
                 child: Text(
-                  _date,
+                  "_date",
                   style: TextStyle(fontSize: 18.0),
                 ),
               ),
               Text(
-                _time,
+                "_time",
                 style: TextStyle(fontSize: 55.0),
               ),
               SizedBox(
@@ -94,10 +95,12 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
                       'no alarms yet',
                     ));
                   }
-                  return ListView.builder(
-                      itemCount: snapshot.data.documents.length,
-                      itemBuilder: (context, index) => _buildListItem(
-                          context, snapshot.data.documents[index]));
+                  return Expanded(
+                    child: ListView.builder(
+                        itemCount: snapshot.data.documents.length,
+                        itemBuilder: (context, index) => _buildListItem(
+                            context, snapshot.data.documents[index])),
+                  );
                 },
               ),
             ]),
@@ -106,7 +109,7 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print("pressed");
+          navigateToPage(context, AddAlarmPage());
         },
         child: Icon(Icons.add_alarm),
         backgroundColor: Colors.amber[400],

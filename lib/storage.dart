@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Storage {
   static final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  static final collection = 'testadd';
+  static final collection = 'testing';
 
   static Stream<dynamic> getStream() {
     return firestore.collection(collection).snapshots();
@@ -13,6 +13,10 @@ class Storage {
   }
 
   static void addAlarm(alarm) {
-    firestore.collection(collection).add(alarm);
+    firestore
+        .collection(collection)
+        .add(alarm)
+        .then((value) => print("Alarm added"))
+        .catchError((error) => print("failed to add alarm"));
   }
 }

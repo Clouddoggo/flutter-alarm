@@ -12,24 +12,26 @@ class AddAlarmPage extends StatefulWidget {
 
 class _AddAlarmPageState extends State<AddAlarmPage> {
   final _formKey = GlobalKey<FormState>();
+  List<bool> isSelected = [false, false];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xffF1F8FF),
       body: Center(
         child: SafeArea(
           child: Form(
             key: _formKey,
-            child: Container(
+            child: Expanded(
               child: Center(
                 child: Column(children: [
                   Padding(
                     padding: EdgeInsets.only(top: 50),
-                  ),
-                  Text(
-                    "date",
-                    style: TextStyle(fontSize: 18.0),
+                    child: Text(
+                      "date",
+                      style: TextStyle(fontSize: 18.0),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20.0),
@@ -38,25 +40,89 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                       style: TextStyle(fontSize: 55.0),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 0.0, horizontal: 20.0),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Name',
-                        labelStyle: TextStyle(
-                          fontSize: 13,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        isDense: true,
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 0.0, horizontal: 20.0),
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'Name',
+                              labelStyle: TextStyle(
+                                fontSize: 13,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              isDense: true,
+                            ),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please enter some text';
+                              }
+                              return null;
+                            },
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                labelText: 'Remarks',
+                                labelStyle: TextStyle(
+                                  fontSize: 13,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0)),
+                                isDense: true,
+                              ),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please enter some text';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: ToggleButtons(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text("Pattern"),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text("Password"),
+                                ),
+                              ],
+                              onPressed: (int index) {
+                                setState(() {
+                                  for (int buttonIndex = 0;
+                                      buttonIndex < isSelected.length;
+                                      buttonIndex++) {
+                                    if (buttonIndex == index) {
+                                      isSelected[buttonIndex] = true;
+                                    } else {
+                                      isSelected[buttonIndex] = false;
+                                    }
+                                  }
+                                });
+                              },
+                              isSelected: isSelected,
+                              color: Colors.grey,
+                              selectedColor: Colors.black,
+                              fillColor: Color(0xffB8DAF2),
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(25.0),
+                                  bottomRight: Radius.circular(25.0)),
+                              borderColor: Colors.black45,
+                              borderWidth: 1.5,
+                              selectedBorderColor: Colors.black87,
+                            ),
+                          ),
+                        ],
                       ),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
                     ),
                   ),
                   Expanded(

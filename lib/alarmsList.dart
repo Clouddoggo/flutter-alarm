@@ -1,7 +1,9 @@
 import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'storage.dart';
 import 'addAlarm.dart';
 
@@ -16,11 +18,12 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
   String _time;
   String _date;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   Timer.periodic(Duration(seconds: 1), (Timer t) => _getDateTime());
-  // }
+  @override
+  void initState() {
+    super.initState();
+    Timer.periodic(Duration(seconds: 1), (Timer t) => _getDateTime());
+    AndroidAlarmManager.initialize();
+  }
 
   void _getDateTime() {
     var _dateTime = new DateTime.now();
@@ -55,7 +58,7 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
         ),
         highlightColor: Colors.redAccent,
         onPressed: () {
-          print("deleting");
+          Storage.deleteAlarm(document.id);
         },
       ),
       onTap: () {
@@ -75,12 +78,12 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
               Padding(
                 padding: EdgeInsets.only(top: 65.0, bottom: 5.0),
                 child: Text(
-                  "_date",
+                  _date,
                   style: TextStyle(fontSize: 18.0),
                 ),
               ),
               Text(
-                "_time",
+                _time,
                 style: TextStyle(fontSize: 55.0),
               ),
               SizedBox(

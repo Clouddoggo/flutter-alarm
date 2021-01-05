@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // TODO: add update phone number
-class SettingsPage extends StatefulWidget {
-  SettingsPage({Key key}) : super(key: key);
-  @override
-  _SettingsPageState createState() => _SettingsPageState();
-}
+class SettingsPage extends StatelessWidget {
+  _launchURL() async {
+    const url = "https://github.com/Clouddoggo/AnnoyingAlarm/pulls";
 
-class _SettingsPageState extends State<SettingsPage> {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,16 +32,10 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               ListTile(
                 title: Text("Change number"),
-                leading: IconButton(
-                  icon: Icon(
-                    Icons.phone,
-                    size: 18,
-                    color: Color(0xff0785CC),
-                  ),
-                  highlightColor: Colors.redAccent,
-                  onPressed: () {
-                    print("change");
-                  },
+                leading: Icon(
+                  Icons.phone,
+                  size: 18,
+                  color: Color(0xff0785CC),
                 ),
                 onTap: () {
                   print("tapped");
@@ -44,16 +43,10 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               ListTile(
                 title: Text("Manage sounds"),
-                leading: IconButton(
-                  icon: Icon(
-                    Icons.hearing,
-                    size: 18,
-                    color: Color(0xff872EF9),
-                  ),
-                  highlightColor: Colors.redAccent,
-                  onPressed: () {
-                    print("change");
-                  },
+                leading: Icon(
+                  Icons.hearing,
+                  size: 18,
+                  color: Color(0xff872EF9),
                 ),
                 onTap: () {
                   print("tapped");
@@ -61,33 +54,19 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               ListTile(
                 title: Text("Contribute"),
-                leading: IconButton(
-                  icon: Icon(
-                    Icons.favorite_border,
-                    size: 18,
-                    color: Color(0xffFA1FCA),
-                  ),
-                  highlightColor: Colors.redAccent,
-                  onPressed: () {
-                    print("change");
-                  },
+                leading: Icon(
+                  Icons.favorite_border,
+                  size: 18,
+                  color: Color(0xffFA1FCA),
                 ),
-                onTap: () {
-                  print("Contribute");
-                },
+                onTap: _launchURL,
               ),
               ListTile(
                 title: Text("Logout"),
-                leading: IconButton(
-                  icon: Icon(
-                    Icons.phone,
-                    size: 18,
-                    color: Color(0xffEB2B2B),
-                  ),
-                  highlightColor: Colors.redAccent,
-                  onPressed: () {
-                    print("change");
-                  },
+                leading: Icon(
+                  Icons.phone,
+                  size: 18,
+                  color: Color(0xffEB2B2B),
                 ),
                 onTap: () {
                   print("Logout");

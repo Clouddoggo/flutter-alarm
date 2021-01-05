@@ -43,9 +43,9 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
     return ListTile(
-      title: Text("time picker"),
+      title: Text(document.get('name')),
       subtitle: Text(
-        document.get('name'),
+        document.get('remarks'),
         style: TextStyle(
           fontSize: 15,
           fontWeight: FontWeight.w400,

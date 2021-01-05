@@ -9,7 +9,12 @@ class Storage {
   }
 
   static void deleteAlarm(String id) {
-    firestore.collection(collection).doc(id).delete();
+    firestore
+        .collection(collection)
+        .doc(id)
+        .delete()
+        .then((value) => print("Alarm deleted"))
+        .catchError((error) => print("failed to delete alarm"));
   }
 
   static void addAlarm(alarm) {

@@ -1,22 +1,9 @@
 import 'dart:isolate';
-import 'dart:ui';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'homepage.dart';
-
-const String countKey = 'count';
-
-/// The name associated with the UI isolate's [SendPort].
-const String isolateName = 'isolate';
-
-/// A port used to communicate from a background isolate to the UI isolate.
-final ReceivePort port = ReceivePort();
-
-/// Global [SharedPreferences] object.
-SharedPreferences prefs;
 
 void printHello() {
   final DateTime now = DateTime.now();
@@ -26,15 +13,12 @@ void printHello() {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Register the UI isolate's SendPort to allow for communication from the
-  // background isolate.
-  IsolateNameServer.registerPortWithName(
-    port.sendPort,
-    isolateName,
-  );
-  prefs = await SharedPreferences.getInstance();
   await Firebase.initializeApp();
+  final int helloAlarmID = 0;
+  await AndroidAlarmManager.initialize();
   runApp(MyApp());
+  await AndroidAlarmManager.periodic(
+      const Duration(seconds: 20), helloAlarmID, printHello);
 }
 
 class MyApp extends StatelessWidget {

@@ -3,9 +3,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:android_alarm_manager/android_alarm_manager.dart';
-import 'package:one_context/one_context.dart';
 import 'storage.dart';
-import 'homepage.dart';
 
 class AddAlarmPage extends StatefulWidget {
   AddAlarmPage({Key key}) : super(key: key);
@@ -15,24 +13,27 @@ class AddAlarmPage extends StatefulWidget {
 }
 
 void printSuccess() {
-  OneContext().showProgressIndicator();
   print("Alarm fired successfully!");
 }
 
 class _AddAlarmPageState extends State<AddAlarmPage> {
   final _formKey = GlobalKey<FormState>();
-  List<bool> isSelected = [false, false];
+  DateTime _dateTime;
+  String _name;
+  String _remarks;
+  String _password;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xffF1F8FF),
-      body: Center(
-        child: SafeArea(
-          child: Form(
-            key: _formKey,
-            child: Center(
+      body: SafeArea(
+        child: Form(
+          key: _formKey,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(children: [
                 Padding(
                   padding: EdgeInsets.only(top: 50),
@@ -49,14 +50,56 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                   ),
                 ),
                 Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 0.0, horizontal: 20.0),
-                    child: Column(
-                      children: [
-                        TextFormField(
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Name',
+                          labelStyle: TextStyle(
+                            fontSize: 13,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          isDense: true,
+                        ),
+                        validator: (value) {
+                          if (value.isEmpty || value.trim().length < 1) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) => {
+                          setState(() {
+                            this._name = value;
+                          })
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: TextFormField(
                           decoration: InputDecoration(
-                            labelText: 'Name',
+                            labelText: 'Remarks',
+                            labelStyle: TextStyle(
+                              fontSize: 13,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            isDense: true,
+                          ),
+                          onChanged: (value) => {
+                            setState(() {
+                              this._remarks = value;
+                            })
+                          },
+                        ),
+                      ),
+                      // TODO: add option to use pattern lock [https://pub.dev/packages/pattern_lock/]
+                      // TODO: generate random password for users
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Password',
                             labelStyle: TextStyle(
                               fontSize: 13,
                             ),
@@ -65,72 +108,21 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                             isDense: true,
                           ),
                           validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter some text';
+                            if (value.isEmpty || value.trim().length < 1) {
+                              return 'Password cannot be empty';
+                            } else if (value.trim().length < 10) {
+                              return "Password requires more than 9 characters";
                             }
                             return null;
                           },
+                          onChanged: (value) => {
+                            setState(() {
+                              this._password = value;
+                            })
+                          },
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              labelText: 'Remarks',
-                              labelStyle: TextStyle(
-                                fontSize: 13,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0)),
-                              isDense: true,
-                            ),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please enter some text';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: ToggleButtons(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text("Pattern"),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text("Password"),
-                              ),
-                            ],
-                            onPressed: (int index) {
-                              setState(() {
-                                for (int buttonIndex = 0;
-                                    buttonIndex < isSelected.length;
-                                    buttonIndex++) {
-                                  if (buttonIndex == index) {
-                                    isSelected[buttonIndex] = true;
-                                  } else {
-                                    isSelected[buttonIndex] = false;
-                                  }
-                                }
-                              });
-                            },
-                            isSelected: isSelected,
-                            color: Colors.grey,
-                            selectedColor: Colors.black,
-                            fillColor: Color(0xffB8DAF2),
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(25.0),
-                                bottomRight: Radius.circular(25.0)),
-                            borderColor: Colors.black45,
-                            borderWidth: 1.5,
-                            selectedBorderColor: Colors.black87,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(
@@ -161,21 +153,20 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
                             Storage.addAlarm({
-                              'name': 'test name',
-                              'remarks': 'test remarks',
-                              'dateTime': DateTime.now()
+                              'name': _name,
+                              'remarks': _remarks,
+                              'dateTime': DateTime.now(),
+                              'password': _password,
                             });
                             await AndroidAlarmManager.oneShot(
-                              Duration(seconds: 7),
+                              Duration(seconds: 5),
                               Random().nextInt(100),
                               printSuccess,
                               wakeup: true,
                               rescheduleOnReboot: true,
                             );
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()));
+                            // Navigator.pop(context);
+                            Navigator.pushNamed(context, '/ring');
                           }
                         },
                         child: Text(

@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 // TODO: add update phone number
 class SettingsPage extends StatelessWidget {
   _launchURL() async {
-    const url = "https://github.com/Clouddoggo/AnnoyingAlarm/pulls";
+    const url = "https://github.com/Clouddoggo/AnnoyingAlarm/issues";
 
     if (await canLaunch(url)) {
       await launch(url);
@@ -16,10 +16,10 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Color(0xffF1F8FF),
-      child: Center(
-        child: SafeArea(
+    return Scaffold(
+      backgroundColor: Color(0xffF1F8FF),
+      body: SafeArea(
+        child: Center(
           child: Padding(
             padding: EdgeInsets.only(left: 15),
             child: ListView(padding: const EdgeInsets.all(0.0), children: [
@@ -31,7 +31,7 @@ class SettingsPage extends StatelessWidget {
                 ),
               ),
               ListTile(
-                title: Text("Change number"),
+                title: Text("Coming soon: Change number"),
                 leading: Icon(
                   Icons.phone,
                   size: 18,
@@ -42,7 +42,7 @@ class SettingsPage extends StatelessWidget {
                 },
               ),
               ListTile(
-                title: Text("Manage sounds"),
+                title: Text("Coming soon: Manage sounds"),
                 leading: Icon(
                   Icons.hearing,
                   size: 18,
@@ -62,7 +62,7 @@ class SettingsPage extends StatelessWidget {
                 onTap: _launchURL,
               ),
               ListTile(
-                title: Text("Logout"),
+                title: Text("Coming soon: Logout"),
                 leading: Icon(
                   Icons.phone,
                   size: 18,

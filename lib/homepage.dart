@@ -21,14 +21,6 @@ class _HomePageState extends State<HomePage> {
     SettingsPage(),
   ];
 
-  TextStyle _buildTextStyle() {
-    return TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: 12.0,
-      color: Colors.red[50],
-    );
-  }
-
   void pageChanged(index) {
     setState(() {
       _selectedPage = index;
@@ -67,26 +59,19 @@ class _HomePageState extends State<HomePage> {
                 Icons.alarm,
                 size: 20.0,
               ),
-              title: Text(
-                'Alarms',
-                style: _buildTextStyle(),
-              ),
+              label: 'Alarms',
             ),
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.settings,
                 size: 20.0,
               ),
-              title: Text(
-                'Settings',
-                style: _buildTextStyle(),
-              ),
+              label: 'Settings',
             ),
           ],
           currentIndex: _selectedPage,
-          unselectedIconTheme: IconThemeData(color: Colors.yellow[50]),
-          selectedIconTheme:
-              IconThemeData(color: Color(0xffFCD344), size: 35.0),
+          selectedItemColor: Color(0xffFCD344),
+          unselectedItemColor: Colors.yellow[50],
           onTap: (page) => _onTabTapped(page),
         ),
       ),

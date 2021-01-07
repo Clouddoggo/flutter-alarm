@@ -9,7 +9,7 @@ class Application : FlutterApplication(), io.flutter.plugin.common.PluginRegistr
 
     override fun onCreate() {
         super.onCreate()
-        // AlarmService.setPluginRegistrant(this)
+         AlarmService.setPluginRegistrant(this)
     }
 
     override fun registerWith(registry: io.flutter.plugin.common.PluginRegistry) {

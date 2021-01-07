@@ -25,8 +25,8 @@ dependencies:
   intl: ^0.16.1
   android_alarm_manager: ^0.4.5+17
   shared_preferences: ^0.5.12+4
-  one_context: ^0.5.0
   url_launcher: ^5.7.10
+  get: ^3.24.0
 
 dev_dependencies:
   flutter_test:

@@ -1,24 +1,24 @@
-import 'dart:isolate';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_alarm/addAlarm.dart';
+import 'package:flutter_alarm/alarmRing.dart';
+import 'package:flutter_alarm/alarmsList.dart';
+import 'package:flutter_alarm/settings.dart';
 import 'homepage.dart';
 
 void printHello() {
   final DateTime now = DateTime.now();
-  final int isolateId = Isolate.current.hashCode;
-  print("[$now] Hello, world! isolate=$isolateId function='$printHello'");
+  print("[$now] Hello, world! function='$printHello'");
 }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  final int helloAlarmID = 0;
   await AndroidAlarmManager.initialize();
   runApp(MyApp());
   await AndroidAlarmManager.periodic(
-      const Duration(seconds: 20), helloAlarmID, printHello);
+      const Duration(seconds: 20), 1, printHello);
 }
 
 class MyApp extends StatelessWidget {
@@ -30,6 +30,13 @@ class MyApp extends StatelessWidget {
       home: HomePage(
         title: 'Flutter Alarm',
       ),
+      initialRoute: '/',
+      routes: {
+        '/alarms': (context) => AlarmsListPage(),
+        '/addAlarm': (context) => AddAlarmPage(),
+        '/settings': (context) => SettingsPage(),
+        '/ring': (context) => AlarmRingPage()
+      },
     );
   }
 }

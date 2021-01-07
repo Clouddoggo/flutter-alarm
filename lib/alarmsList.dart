@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'storage.dart';
-import 'addAlarm.dart';
 
 class AlarmsListPage extends StatefulWidget {
   AlarmsListPage({Key key}) : super(key: key);
@@ -31,14 +30,12 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
         DateFormat('dd MMM').format(_dateTime).toString();
     final String formattedTime =
         DateFormat('kk:mm').format(_dateTime).toString();
-    setState(() {
-      _time = formattedTime;
-      _date = formattedDate;
-    });
-  }
-
-  Future navigateToPage(context, page) async {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+    if (this.mounted) {
+      setState(() {
+        _time = formattedTime;
+        _date = formattedDate;
+      });
+    }
   }
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
@@ -71,19 +68,19 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffF1F8FF),
-      body: Center(
-        child: SafeArea(
+      body: SafeArea(
+        child: Center(
           child: Container(
             child: Column(children: [
               Padding(
                 padding: EdgeInsets.only(top: 65.0, bottom: 5.0),
                 child: Text(
-                  _date,
+                  " $_date ",
                   style: TextStyle(fontSize: 18.0),
                 ),
               ),
               Text(
-                _time,
+                " $_time ",
                 style: TextStyle(fontSize: 55.0),
               ),
               SizedBox(
@@ -112,7 +109,7 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          navigateToPage(context, AddAlarmPage());
+          Navigator.pushNamed(context, '/addAlarm');
         },
         child: Icon(Icons.add_alarm),
         backgroundColor: Colors.amber[400],

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,7 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
     return ListTile(
       title: Text(document.get('name')),
       subtitle: Text(
-        document.get('remarks'),
+        document.get('remarks') ?? 'No remarks',
         style: TextStyle(
           fontSize: 15,
           fontWeight: FontWeight.w400,

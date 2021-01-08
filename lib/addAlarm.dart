@@ -1,8 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:android_alarm_manager/android_alarm_manager.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'main.dart';
 import 'storage.dart';
 
 class AddAlarmPage extends StatefulWidget {
@@ -12,16 +11,19 @@ class AddAlarmPage extends StatefulWidget {
   _AddAlarmPageState createState() => _AddAlarmPageState();
 }
 
-void printSuccess() {
-  print("Alarm fired successfully!");
-}
-
 class _AddAlarmPageState extends State<AddAlarmPage> {
   final _formKey = GlobalKey<FormState>();
   DateTime _dateTime;
   String _name;
   String _remarks;
   String _password;
+
+  static Future<void> callback() async {
+    print("Alarm fired successfully!");
+    var now = tz.TZDateTime.now(tz.getLocation('America/Detroit'))
+        .add(Duration(seconds: 5));
+    await singleNotification(now, "Notification", "testing", 1234567);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -158,15 +160,8 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                               'dateTime': DateTime.now(),
                               'password': _password,
                             });
-                            await AndroidAlarmManager.oneShot(
-                              Duration(seconds: 5),
-                              Random().nextInt(100),
-                              printSuccess,
-                              wakeup: true,
-                              rescheduleOnReboot: true,
-                            );
-                            // Navigator.pop(context);
-                            Navigator.pushNamed(context, '/ring');
+                            callback();
+                            Navigator.pop(context);
                           }
                         },
                         child: Text(

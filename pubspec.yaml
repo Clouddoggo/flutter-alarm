@@ -26,7 +26,12 @@ dependencies:
   android_alarm_manager: ^0.4.5+17
   shared_preferences: ^0.5.12+4
   url_launcher: ^5.7.10
-  get: ^3.24.0
+  flutter_local_notifications: ^3.0.2
+  flutter_local_notifications_platform_interface: ^2.0.0+1
+  timezone: ^0.5.9
+  platform: ^2.2.1
+  rxdart: ^0.25.0
+  flutter_native_timezone: ^1.0.4
 
 dev_dependencies:
   flutter_test:

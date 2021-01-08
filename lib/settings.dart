@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-// TODO: add update phone number
 class SettingsPage extends StatelessWidget {
   _launchURL() async {
     const url = "https://github.com/Clouddoggo/AnnoyingAlarm/issues";
@@ -29,17 +28,6 @@ class SettingsPage extends StatelessWidget {
                   "Settings",
                   style: TextStyle(fontSize: 20),
                 ),
-              ),
-              ListTile(
-                title: Text("Coming soon: Change number"),
-                leading: Icon(
-                  Icons.phone,
-                  size: 18,
-                  color: Color(0xff0785CC),
-                ),
-                onTap: () {
-                  print("tapped");
-                },
               ),
               ListTile(
                 title: Text("Coming soon: Manage sounds"),

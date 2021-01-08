@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:timezone/timezone.dart' as tz;
+import 'notificationUtil.dart';
 import 'main.dart';
 import 'storage.dart';
 
@@ -22,7 +25,8 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
     print("Alarm fired successfully!");
     var now = tz.TZDateTime.now(tz.getLocation('America/Detroit'))
         .add(Duration(seconds: 5));
-    await singleNotification(now, "Notification", "testing", 1234567);
+    await singleNotification(localNotificationsPlugin, now, "Notification",
+        "testing", Random().nextInt(100));
   }
 
   @override

@@ -220,7 +220,7 @@ packages:
     source: hosted
     version: "0.0.4+3"
   platform:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: platform
       url: "https://pub.dartlang.org"

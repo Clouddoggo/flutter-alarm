@@ -2,10 +2,13 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:android_alarm_manager/android_alarm_manager.dart';
+import 'alarmRing.dart';
+import 'notificationUtil.dart';
 import 'storage.dart';
+import 'receivedNotification.dart';
 
 class AlarmsListPage extends StatefulWidget {
   AlarmsListPage({Key key}) : super(key: key);
@@ -22,7 +25,8 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
   void initState() {
     super.initState();
     Timer.periodic(Duration(seconds: 1), (Timer t) => _getDateTime());
-    AndroidAlarmManager.initialize();
+    _configureSelectNotificationSubject();
+    _configureDidReceiveLocalNotificationSubject();
   }
 
   void _getDateTime() {
@@ -117,5 +121,57 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
         elevation: 15,
       ),
     );
+  }
+
+  void _configureSelectNotificationSubject() {
+    selectNotificationSubject.stream.listen((String payload) async {
+      await Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => AlarmRingPage(payload: payload),
+        ),
+      );
+    });
+  }
+
+  void _configureDidReceiveLocalNotificationSubject() {
+    didReceiveLocalNotificationSubject.stream
+        .listen((ReceivedNotification receivedNotification) async {
+      print("listening2");
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: receivedNotification.title != null
+              ? Text(receivedNotification.title)
+              : null,
+          content: receivedNotification.body != null
+              ? Text(receivedNotification.body)
+              : null,
+          actions: <Widget>[
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              onPressed: () async {
+                Navigator.of(context, rootNavigator: true).pop();
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        AlarmRingPage(payload: receivedNotification.payload),
+                  ),
+                );
+              },
+              child: const Text('Ok'),
+            )
+          ],
+        ),
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    didReceiveLocalNotificationSubject.close();
+    selectNotificationSubject.close();
+    super.dispose();
   }
 }

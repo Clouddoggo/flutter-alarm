@@ -30,6 +30,17 @@ class SettingsPage extends StatelessWidget {
                 ),
               ),
               ListTile(
+                title: Text("Coming number: change number"),
+                leading: Icon(
+                  Icons.phone,
+                  size: 18,
+                  color: Color(0xff0785CC),
+                ),
+                onTap: () {
+                  print("tapped");
+                },
+              ),
+              ListTile(
                 title: Text("Coming soon: Manage sounds"),
                 leading: Icon(
                   Icons.hearing,

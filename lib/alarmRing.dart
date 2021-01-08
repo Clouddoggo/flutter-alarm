@@ -2,6 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AlarmRingPage extends StatefulWidget {
+  AlarmRingPage({Key key, this.payload}) : super(key: key);
+
+  final String payload;
+
   @override
   _AlarmRingPageState createState() => _AlarmRingPageState();
 }
@@ -47,7 +51,7 @@ class _AlarmRingPageState extends State<AlarmRingPage> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Password: password",
+                    "Password: $widget.payload",
                     style: TextStyle(
                         color: Colors.red[800], fontWeight: FontWeight.bold),
                   ),

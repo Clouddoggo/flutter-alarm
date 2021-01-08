@@ -10,13 +10,15 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'notificationUtil.dart';
+import 'addAlarm.dart';
+import 'settings.dart';
+import 'alarmRing.dart';
 import 'homepage.dart';
 
 FlutterLocalNotificationsPlugin localNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 Future onSelectNotification(String payload) async {
-  print("Test");
   await Navigator.push(
     MyApp.navigatorKey.currentState.context,
     MaterialPageRoute<void>(

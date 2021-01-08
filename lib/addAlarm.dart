@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:timezone/timezone.dart' as tz;
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:intl/intl.dart';
 import 'notificationUtil.dart';
 import 'main.dart';
 import 'storage.dart';
@@ -16,7 +18,8 @@ class AddAlarmPage extends StatefulWidget {
 
 class _AddAlarmPageState extends State<AddAlarmPage> {
   final _formKey = GlobalKey<FormState>();
-  DateTime _dateTime;
+  String _dateString, _timeString;
+  DateTime _date, _time;
   String _name;
   String _remarks;
   String _password;
@@ -32,7 +35,6 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xffF1F8FF),
       body: SafeArea(
         child: Form(
@@ -41,18 +43,52 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 50),
+                SizedBox(
+                  height: 40.0,
+                ),
+                TextButton(
+                  onPressed: () {
+                    DatePicker.showDatePicker(
+                      context,
+                      showTitleActions: true,
+                      onConfirm: (date) {
+                        setState(() {
+                          _date = date;
+                          _dateString =
+                              DateFormat.MMMMd().format(_date).toString();
+                        });
+                        print('confirm $date');
+                      },
+                      minTime: DateTime.now(),
+                      maxTime: DateTime.now().add(Duration(days: 14)),
+                    );
+                  },
                   child: Text(
-                    "date",
-                    style: TextStyle(fontSize: 18.0),
+                    _dateString ??
+                        DateFormat.MMMMd().format(DateTime.now()).toString(),
+                    style: TextStyle(color: Colors.blueGrey, fontSize: 18),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20.0),
+                TextButton(
+                  onPressed: () {
+                    DatePicker.showTimePicker(
+                      context,
+                      showTitleActions: true,
+                      onConfirm: (time) {
+                        setState(() {
+                          _time = time;
+                          _timeString =
+                              DateFormat.jm().format(_time).toString();
+                        });
+                        print('confirm $time');
+                      },
+                      showSecondsColumn: false,
+                    );
+                  },
                   child: Text(
-                    "time",
-                    style: TextStyle(fontSize: 55.0),
+                    _timeString ??
+                        DateFormat.jm().format(DateTime.now()).toString(),
+                    style: TextStyle(color: Colors.amber, fontSize: 60),
                   ),
                 ),
                 Expanded(
@@ -138,30 +174,15 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                       RaisedButton(
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
-                            side: BorderSide(color: Colors.red),
+                            side: BorderSide(color: Colors.green),
                             borderRadius: BorderRadius.circular(15.0)),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          'Cancel',
-                          style: TextStyle(
-                            color: Colors.red[700],
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      RaisedButton(
-                        color: Color.fromRGBO(92, 184, 92, 5),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
                             Storage.addAlarm({
                               'name': _name,
                               'remarks': _remarks,
-                              'dateTime': DateTime.now(),
+                              'date': _date ?? DateTime.now(),
+                              'time': _time ?? DateTime.now(),
                               'password': _password,
                             });
                             callback();
@@ -171,7 +192,23 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                         child: Text(
                           'Save',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.green,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      RaisedButton(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(color: Colors.red),
+                            borderRadius: BorderRadius.circular(15.0)),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                            color: Colors.red[700],
                             fontWeight: FontWeight.w500,
                           ),
                         ),

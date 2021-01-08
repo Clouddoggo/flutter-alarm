@@ -31,6 +31,7 @@ dependencies:
   timezone: ^0.5.9
   rxdart: ^0.25.0
   flutter_native_timezone: ^1.0.4
+  flutter_datetime_picker: ^1.4.0
 
 dev_dependencies:
   flutter_test:

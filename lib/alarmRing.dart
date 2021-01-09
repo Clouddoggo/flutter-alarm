@@ -14,7 +14,7 @@ class AlarmRingPage extends StatefulWidget {
   _AlarmRingPageState createState() => _AlarmRingPageState();
 }
 
-// TODO:
+// TODO: test vibration and audio player. detect home & lock button
 class _AlarmRingPageState extends State<AlarmRingPage> {
   final _formKey = GlobalKey<FormState>();
   AudioPlayer audioPlayer = AudioPlayer();

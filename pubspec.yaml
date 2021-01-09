@@ -32,6 +32,7 @@ dependencies:
   rxdart: ^0.25.0
   flutter_native_timezone: ^1.0.4
   flutter_datetime_picker: ^1.4.0
+  audioplayers: ^0.17.2
 
 dev_dependencies:
   flutter_test:

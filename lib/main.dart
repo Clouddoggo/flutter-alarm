@@ -15,6 +15,8 @@ import 'settings.dart';
 import 'alarmRing.dart';
 import 'homepage.dart';
 
+// TODO: test on phone
+// TODO: add splash screen
 FlutterLocalNotificationsPlugin localNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 

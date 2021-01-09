@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_alarm/storage.dart';
+import 'package:intl/intl.dart';
 
 class AlarmRingPage extends StatefulWidget {
   AlarmRingPage({Key key, this.payload}) : super(key: key);
@@ -10,8 +13,31 @@ class AlarmRingPage extends StatefulWidget {
   _AlarmRingPageState createState() => _AlarmRingPageState();
 }
 
+// TODO: keep playing audio until password entered is correct.
 class _AlarmRingPageState extends State<AlarmRingPage> {
   final _formKey = GlobalKey<FormState>();
+  String _name, _remarks, _password, _date, _time;
+
+  void initialiseDetails() async {
+    print("testing");
+    await Storage.getAlarmDetails(widget.payload).then((document) {
+      setState(() {
+        this._name = document.get('name');
+        this._remarks = document.get('remarks');
+        this._password = document.get('password');
+        this._date =
+            DateFormat.MMMMd().format(document.get('date').toDate()).toString();
+        this._time =
+            DateFormat.jm().format(document.get('time').toDate()).toString();
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initialiseDetails();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +51,13 @@ class _AlarmRingPageState extends State<AlarmRingPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "time",
+                  " $_date ",
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                ),
+                Text(
+                  " $_time ",
                   style: TextStyle(
                     fontSize: 30,
                   ),
@@ -33,14 +65,14 @@ class _AlarmRingPageState extends State<AlarmRingPage> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Text(
-                    "alarm name",
+                    " $_name ",
                     style: TextStyle(
                       fontSize: 20,
                     ),
                   ),
                 ),
                 Text(
-                  "alarm remarks",
+                  " $_remarks ",
                   style: TextStyle(
                     fontSize: 16,
                   ),
@@ -51,7 +83,7 @@ class _AlarmRingPageState extends State<AlarmRingPage> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Password: $widget.payload",
+                    "Password: $_password",
                     style: TextStyle(
                         color: Colors.red[800], fontWeight: FontWeight.bold),
                   ),
@@ -72,7 +104,7 @@ class _AlarmRingPageState extends State<AlarmRingPage> {
                     validator: (value) {
                       if (value.isEmpty || value.trim().length < 1) {
                         return "Password cannot be empty";
-                      } else if (value != "password") {
+                      } else if (value != _password) {
                         return "Password entered does not match.";
                       }
                       return null;

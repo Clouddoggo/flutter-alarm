@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_alarm/receivedNotification.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
@@ -32,6 +33,7 @@ Future singleNotification(
     String message,
     String subtext,
     int hashcode,
+    String docId,
     {String sound}) async {
   var androidChannel = AndroidNotificationDetails(
     'channel-id',
@@ -46,7 +48,7 @@ Future singleNotification(
   var platformChannel = NotificationDetails(android: androidChannel);
   localNotificationsPlugin.zonedSchedule(
       hashcode, message, subtext, datetime, platformChannel,
-      payload: hashcode.toString(),
+      payload: docId,
       androidAllowWhileIdle: true,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime);

@@ -17,6 +17,8 @@ class AlarmsListPage extends StatefulWidget {
   _AlarmsListPageState createState() => _AlarmsListPageState();
 }
 
+// TODO: add edit on tap: must-have
+// TODO: change color if passed date of alarm(?): nice-to-have
 class _AlarmsListPageState extends State<AlarmsListPage> {
   String _time;
   String _date;
@@ -24,7 +26,11 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
   @override
   void initState() {
     super.initState();
-    Timer.periodic(Duration(seconds: 1), (Timer t) => _getDateTime());
+    Timer.periodic(
+        Duration(
+          milliseconds: 50,
+        ),
+        (Timer t) => _getDateTime());
     _configureSelectNotificationSubject();
     _configureDidReceiveLocalNotificationSubject();
   }
@@ -74,42 +80,42 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
     return Scaffold(
       backgroundColor: Color(0xffF1F8FF),
       body: SafeArea(
-        child: Center(
-          child: Container(
-            child: Column(children: [
-              Padding(
-                padding: EdgeInsets.only(top: 65.0, bottom: 5.0),
-                child: Text(
-                  " $_date ",
-                  style: TextStyle(fontSize: 18.0),
-                ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: 65.0, bottom: 5.0),
+              child: Text(
+                " $_date ",
+                style: TextStyle(fontSize: 18.0),
               ),
-              Text(
-                " $_time ",
-                style: TextStyle(fontSize: 55.0),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              StreamBuilder(
-                stream: Storage.getStream(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                        child: Text(
-                      'no alarms yet',
-                    ));
-                  }
-                  return Expanded(
-                    child: ListView.builder(
-                        itemCount: snapshot.data.documents.length,
-                        itemBuilder: (context, index) => _buildListItem(
-                            context, snapshot.data.documents[index])),
-                  );
-                },
-              ),
-            ]),
-          ),
+            ),
+            Text(
+              " $_time ",
+              style: TextStyle(fontSize: 55.0),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            StreamBuilder(
+              stream: Storage.getStream(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                      child: Text(
+                    'no alarms yet',
+                  ));
+                }
+                return Expanded(
+                  child: ListView.builder(
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (context, index) => _buildListItem(
+                          context, snapshot.data.documents[index])),
+                );
+              },
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(

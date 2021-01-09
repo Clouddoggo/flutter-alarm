@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+// TODO: add sound assets that don't have copyright
 class SettingsPage extends StatelessWidget {
   _launchURL() async {
     const url = "https://github.com/Clouddoggo/AnnoyingAlarm/issues";

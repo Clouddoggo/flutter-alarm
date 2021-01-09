@@ -17,11 +17,14 @@ class Storage {
         .catchError((error) => print("failed to delete alarm"));
   }
 
-  static void addAlarm(alarm) {
-    firestore
-        .collection(collection)
-        .add(alarm)
-        .then((value) => print("Alarm added"))
-        .catchError((error) => print("failed to add alarm"));
+  static Future<String> addAlarm(alarm) async {
+    return await firestore.collection(collection).add(alarm).then((value) {
+      print("Alarm added successfully");
+      return value.id;
+    });
+  }
+
+  static Future<DocumentSnapshot> getAlarmDetails(String id) async {
+    return await firestore.collection(collection).doc(id).get();
   }
 }

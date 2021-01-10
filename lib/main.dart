@@ -54,6 +54,9 @@ class MyApp extends StatelessWidget {
         '/ring': (context) => AlarmRingPage()
       },
       navigatorKey: navigatorKey,
+      theme: ThemeData(
+        fontFamily: 'JosefinSans',
+      ),
     );
   }
 }

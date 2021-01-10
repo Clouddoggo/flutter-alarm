@@ -72,7 +72,7 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
               ),
         title: Text(
           DateFormat('kk:mm').format(document.get('time').toDate()).toString(),
-          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.w300),
         ),
         subtitle: Text(
           document.get('remarks') ?? 'No remarks',
@@ -121,10 +121,24 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
             ),
             Text(
               " $_time ",
-              style: TextStyle(fontSize: 60.0),
+              style: TextStyle(
+                fontSize: 60.0,
+                color: Color(0xffFBB500),
+              ),
             ),
-            SizedBox(
-              height: 20,
+            Padding(
+              padding: const EdgeInsets.only(right: 15.0),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/addAlarm');
+                  },
+                  color: Colors.orange[600],
+                  highlightColor: Colors.blue[200],
+                ),
+              ),
             ),
             StreamBuilder(
               stream: Storage.getStream(),
@@ -145,14 +159,6 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/addAlarm');
-        },
-        child: Icon(Icons.add_alarm),
-        backgroundColor: Colors.amber[400],
-        elevation: 15,
       ),
     );
   }

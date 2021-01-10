@@ -9,7 +9,7 @@ import 'package:flutter_alarm/settings.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'notificationUtil.dart';
+import 'package:flutter_alarm/util/notificationUtil.dart';
 import 'addAlarm.dart';
 import 'settings.dart';
 import 'alarmRing.dart';

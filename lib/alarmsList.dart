@@ -4,11 +4,12 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_alarm/editAlarm.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_alarm/util/receivedNotification.dart';
+import 'package:flutter_alarm/util/notificationUtil.dart';
 import 'alarmRing.dart';
-import 'notificationUtil.dart';
 import 'storage.dart';
-import 'receivedNotification.dart';
 
 class AlarmsListPage extends StatefulWidget {
   AlarmsListPage({Key key}) : super(key: key);
@@ -17,7 +18,6 @@ class AlarmsListPage extends StatefulWidget {
   _AlarmsListPageState createState() => _AlarmsListPageState();
 }
 
-// TODO: add edit on tap: must-have
 // TODO: change color if passed date of alarm(?): nice-to-have
 class _AlarmsListPageState extends State<AlarmsListPage> {
   String _time;
@@ -70,7 +70,11 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
         },
       ),
       onTap: () {
-        print("tapped");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    EditAlarmPage(documentId: document.id)));
       },
     );
   }

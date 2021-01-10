@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_alarm/storage.dart';
 import 'package:intl/intl.dart';
 import 'package:vibration/vibration.dart';
-import 'package:audioplayers/audioplayers.dart';
 
 class AlarmRingPage extends StatefulWidget {
   AlarmRingPage({Key key, this.payload}) : super(key: key);
@@ -14,11 +13,12 @@ class AlarmRingPage extends StatefulWidget {
   _AlarmRingPageState createState() => _AlarmRingPageState();
 }
 
-// TODO: test vibration and audio player. detect home & lock button
+// TODO: test vibration and audio player
+// TODO: detect home & lock button
 class _AlarmRingPageState extends State<AlarmRingPage> {
   final _formKey = GlobalKey<FormState>();
-  AudioPlayer audioPlayer = AudioPlayer();
-  String _name, _remarks, _password, _date, _time;
+  // AudioPlayer audioPlayer = AudioPlayer();
+  String _name, _remarks, _password, _dateString, _timeString;
 
   void initialiseDetails() async {
     await Storage.getAlarmDetails(widget.payload).then((document) {
@@ -26,14 +26,14 @@ class _AlarmRingPageState extends State<AlarmRingPage> {
         this._name = document.get('name');
         this._remarks = document.get('remarks');
         this._password = document.get('password');
-        this._date =
+        this._dateString =
             DateFormat.MMMMd().format(document.get('date').toDate()).toString();
-        this._time =
+        this._timeString =
             DateFormat.jm().format(document.get('time').toDate()).toString();
       });
     });
 
-    await audioPlayer.play('https://www.youtube.com/watch?v=jIL2BcXWVSg');
+    // await audioPlayer.play('https://www.youtube.com/watch?v=jIL2BcXWVSg');
     Vibration.vibrate(pattern: [500, 1500]);
   }
 
@@ -45,7 +45,7 @@ class _AlarmRingPageState extends State<AlarmRingPage> {
 
   void stopAudioAndVibration() async {
     Vibration.cancel();
-    await audioPlayer.stop();
+    // await audioPlayer.stop();
   }
 
   @override
@@ -80,13 +80,13 @@ class _AlarmRingPageState extends State<AlarmRingPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    " $_date ",
+                    " $_dateString ",
                     style: TextStyle(
                       fontSize: 25,
                     ),
                   ),
                   Text(
-                    " $_time ",
+                    " $_timeString ",
                     style: TextStyle(
                       fontSize: 30,
                     ),

@@ -27,4 +27,8 @@ class Storage {
   static Future<DocumentSnapshot> getAlarmDetails(String id) async {
     return await firestore.collection(collection).doc(id).get();
   }
+
+  static void updateAlarm(String id, alarm) async {
+    await firestore.collection(collection).doc(id).update(alarm);
+  }
 }

@@ -1,24 +1,24 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_alarm/util/widgetsUtil.dart';
 import 'package:flutter_alarm/util/notificationUtil.dart';
-import 'main.dart';
+import 'package:flutter_alarm/util/widgetsUtil.dart';
 import 'storage.dart';
+import 'main.dart';
 
-class AddAlarmPage extends StatefulWidget {
-  AddAlarmPage({Key key}) : super(key: key);
+class EditAlarmPage extends StatefulWidget {
+  EditAlarmPage({Key key, this.documentId}) : super(key: key);
+
+  final String documentId;
 
   @override
-  _AddAlarmPageState createState() => _AddAlarmPageState();
+  _EditAlarmPageState createState() => _EditAlarmPageState();
 }
 
-// TODO: add regex check to ensure password is annoying
-class _AddAlarmPageState extends State<AddAlarmPage> {
+class _EditAlarmPageState extends State<EditAlarmPage> {
   final _formKey = GlobalKey<FormState>();
   String _dateString, _timeString;
   DateTime _date, _time;
@@ -26,10 +26,29 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
   String _remarks;
   String _password;
 
+  void inititaliseDetails() async {
+    await Storage.getAlarmDetails(widget.documentId).then((document) {
+      setState(() {
+        this._name = document.get('name');
+        this._remarks = document.get('remarks');
+        this._password = document.get('password');
+        this._date = document.get('date').toDate();
+        this._time = document.get('time').toDate();
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    inititaliseDetails();
+  }
+
   static Future<void> callback(docId, notificationId) async {
-    print("Callback to fire alarm!!");
+    print("Callback to edit alarm!");
     var now = tz.TZDateTime.now(tz.getLocation('America/Detroit'))
-        .add(Duration(seconds: 15));
+        .add(Duration(seconds: 10));
+    cancelAlarm(notificationId);
     await singleNotification(localNotificationsPlugin, now, "Notification",
         "testing", notificationId, docId);
   }
@@ -52,22 +71,6 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
         })
       };
 
-  void onConfirmTime(time) {
-    setState(() {
-      _time = time;
-      _timeString = DateFormat.jm().format(_time).toString();
-    });
-    print('confirm $time');
-  }
-
-  void onConfirmDate(date) {
-    setState(() {
-      _date = date;
-      _dateString = DateFormat.MMMMd().format(_date).toString();
-    });
-    print('confirm $date');
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +90,14 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                   DatePicker.showDatePicker(
                     context,
                     showTitleActions: true,
-                    onConfirm: onConfirmDate,
+                    onConfirm: (date) {
+                      setState(() {
+                        _date = date;
+                        _dateString =
+                            DateFormat.MMMMd().format(_date).toString();
+                      });
+                      print('confirm $date');
+                    },
                     minTime: DateTime.now(),
                     maxTime: DateTime.now().add(Duration(days: 14)),
                   );
@@ -103,7 +113,13 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                   DatePicker.showTimePicker(
                     context,
                     showTitleActions: true,
-                    onConfirm: onConfirmTime,
+                    onConfirm: (time) {
+                      setState(() {
+                        _time = time;
+                        _timeString = DateFormat.jm().format(_time).toString();
+                      });
+                      print('confirm $time');
+                    },
                     showSecondsColumn: false,
                   );
                 },
@@ -143,7 +159,7 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
                           int notificationId = Random().nextInt(1000);
-                          var docId = await Storage.addAlarm({
+                          Storage.updateAlarm(widget.documentId, {
                             'name': _name,
                             'remarks': _remarks,
                             'date': _date ?? DateTime.now(),
@@ -151,13 +167,13 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                             'password': _password,
                             'notificationId': notificationId,
                           });
-                          callback(docId, notificationId);
-                          print("id: $docId");
+                          callback(widget.documentId, notificationId);
+                          print("id: ${widget.documentId}");
                           Navigator.pop(context);
                         }
                       },
                       child: Text(
-                        'Save',
+                        'Update',
                         style: TextStyle(
                           color: Colors.green,
                           fontWeight: FontWeight.w500,

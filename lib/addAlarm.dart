@@ -70,7 +70,6 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xffF1F8FF),
       body: SafeArea(
         child: Container(
@@ -125,6 +124,7 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                       padding: const EdgeInsets.only(top: 20.0),
                       child: buildPasswordField(onChangePassword),
                     ),
+                    buildPasswordRules(),
                   ],
                 ),
               ),

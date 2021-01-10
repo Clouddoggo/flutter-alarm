@@ -141,6 +141,7 @@ class _EditAlarmPageState extends State<EditAlarmPage> {
                       padding: const EdgeInsets.only(top: 20.0),
                       child: buildPasswordField(onChangePassword),
                     ),
+                    buildPasswordRules(),
                   ],
                 ),
               ),

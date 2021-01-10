@@ -15,7 +15,6 @@ import 'settings.dart';
 import 'alarmRing.dart';
 import 'homepage.dart';
 
-// TODO: test on phone
 FlutterLocalNotificationsPlugin localNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 

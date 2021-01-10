@@ -85,3 +85,24 @@ TextFormField buildNameField(Function onChangedName) {
     onChanged: onChangedName,
   );
 }
+
+Align buildPasswordRules() {
+  return Align(
+    alignment: Alignment.centerLeft,
+    child: Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text(
+            "Password must have all of the following:",
+            style: TextStyle(fontSize: 12.0, color: Colors.blueGrey[700]),
+          ),
+        ),
+        Text(
+          "At least 1 uppercase letter\nAt least 1 lowercase letter\nAt least 1 character from !@#\$%^&*(),.?:{}|<>\nMore than 11 characters",
+          style: TextStyle(fontSize: 11.0, color: Colors.grey[600]),
+        ),
+      ],
+    ),
+  );
+}

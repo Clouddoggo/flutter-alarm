@@ -14,3 +14,9 @@ An alarm application built with Flutter.
 5. Checks for password 'strength'. Passwords must contain at least 1 uppercase letter, 1 lowercase letter, 1 digit and 1 special character.
 6. Nice-to-have: choice of sound for ringing.
 7. Nice-to-have: Pattern lock
+
+Android emulator view:
+
+<img src="C:\Users\ASUS\Desktop\flutter_alarm\assets\images\alarmsView.PNG" style="zoom:67%;" />
+
+<img src="C:\Users\ASUS\Desktop\flutter_alarm\assets\images\settingsView.PNG" style="zoom:67%;" />

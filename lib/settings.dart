@@ -30,7 +30,7 @@ class SettingsPage extends StatelessWidget {
                 ),
               ),
               ListTile(
-                title: Text("Coming number: change number"),
+                title: Text("Coming soon: Change number"),
                 leading: Icon(
                   Icons.phone,
                   size: 18,

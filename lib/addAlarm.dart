@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
@@ -27,7 +28,8 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
 
   static Future<void> callback(docId, notificationId) async {
     print("Callback to fire alarm!!");
-    var now = tz.TZDateTime.now(tz.getLocation('America/Detroit'))
+    var now = tz.TZDateTime.now(
+            tz.getLocation(await FlutterNativeTimezone.getLocalTimezone()))
         .add(Duration(seconds: 10));
     await singleNotification(localNotificationsPlugin, now, "Notification",
         "testing", notificationId, docId);

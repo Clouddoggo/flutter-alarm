@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
+import 'dart:math' as math;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,7 +19,6 @@ class AlarmsListPage extends StatefulWidget {
   _AlarmsListPageState createState() => _AlarmsListPageState();
 }
 
-// TODO: change color if passed date of alarm(?): nice-to-have
 class _AlarmsListPageState extends State<AlarmsListPage> {
   String _time;
   String _date;
@@ -51,32 +51,55 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
   }
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
-    return ListTile(
-      title: Text(document.get('name')),
-      subtitle: Text(
-        document.get('remarks') ?? 'No remarks',
-        style: TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.w400,
+    bool isAfterSix = document.get('time').toDate().hour > 17;
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0),
+      child: ListTile(
+        leading: isAfterSix
+            ? Transform.rotate(
+                angle: 180 * math.pi / 180,
+                child: Icon(
+                  Icons.brightness_2_outlined,
+                  size: 22,
+                  color: Color(0xffA771DE),
+                ),
+              )
+            : Icon(
+                Icons.brightness_low_outlined,
+                size: 22,
+                color: Color(0xffFB81D1),
+              ),
+        title: Text(
+          DateFormat('kk:mm').format(document.get('time').toDate()).toString(),
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
         ),
-      ),
-      trailing: IconButton(
-        icon: Icon(
-          Icons.delete_outline,
-          size: 20,
+        subtitle: Text(
+          document.get('remarks') ?? 'No remarks',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+          ),
         ),
-        highlightColor: Colors.redAccent,
-        onPressed: () {
-          Storage.deleteAlarm(document.id);
+        trailing: IconButton(
+          icon: Icon(
+            Icons.delete_outline,
+            size: 24,
+          ),
+          color: Colors.red[700],
+          highlightColor: Colors.amberAccent,
+          onPressed: () {
+            Storage.deleteAlarm(document.id);
+          },
+        ),
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      EditAlarmPage(documentId: document.id)));
         },
       ),
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    EditAlarmPage(documentId: document.id)));
-      },
     );
   }
 
@@ -93,12 +116,12 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
               padding: EdgeInsets.only(top: 65.0, bottom: 5.0),
               child: Text(
                 " $_date ",
-                style: TextStyle(fontSize: 18.0),
+                style: TextStyle(fontSize: 20.0),
               ),
             ),
             Text(
               " $_time ",
-              style: TextStyle(fontSize: 55.0),
+              style: TextStyle(fontSize: 60.0),
             ),
             SizedBox(
               height: 20,

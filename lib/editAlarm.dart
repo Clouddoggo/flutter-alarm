@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
@@ -45,7 +46,8 @@ class _EditAlarmPageState extends State<EditAlarmPage> {
   }
 
   static Future<void> callback(docId, notificationId) async {
-    var now = tz.TZDateTime.now(tz.getLocation('America/Detroit'))
+    var now = tz.TZDateTime.now(
+            tz.getLocation(await FlutterNativeTimezone.getLocalTimezone()))
         .add(Duration(seconds: 10));
     cancelAlarm(notificationId);
     await singleNotification(localNotificationsPlugin, now, "Notification",

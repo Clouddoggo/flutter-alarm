@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-// TODO: add sound assets that don't have copyright
 class SettingsPage extends StatelessWidget {
   _launchURL() async {
     const url = "https://github.com/Clouddoggo/AnnoyingAlarm/issues";
@@ -24,10 +23,10 @@ class SettingsPage extends StatelessWidget {
             padding: EdgeInsets.only(left: 15),
             child: ListView(padding: const EdgeInsets.all(0.0), children: [
               Padding(
-                padding: EdgeInsets.only(top: 30, left: 20, bottom: 10),
+                padding: EdgeInsets.only(top: 40, left: 20, bottom: 12),
                 child: Text(
                   "Settings",
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 26),
                 ),
               ),
               ListTile(

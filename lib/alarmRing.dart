@@ -15,11 +15,9 @@ class AlarmRingPage extends StatefulWidget {
   _AlarmRingPageState createState() => _AlarmRingPageState();
 }
 
-// TODO: test vibration and audio player
 // TODO: detect home & lock button
 class _AlarmRingPageState extends State<AlarmRingPage> {
   final _formKey = GlobalKey<FormState>();
-  // AudioPlayer audioPlayer = AudioPlayer();
   String _name, _remarks, _password, _dateString, _timeString;
 
   void initialiseDetails() async {
@@ -37,14 +35,13 @@ class _AlarmRingPageState extends State<AlarmRingPage> {
     startAudioAndVibrate();
   }
 
-  void startAudioAndVibrate() async {
-    // await audioPlayer.play('https://www.youtube.com/watch?v=jIL2BcXWVSg');
-    Vibration.vibrate(pattern: [500, 1500]);
+  void startAudioAndVibrate() {
+    Vibration.vibrate(
+        pattern: [400, 1200, 300, 1500, 200, 2000], duration: 1000);
   }
 
-  void stopAudioAndVibration() async {
+  void stopAudioAndVibration() {
     Vibration.cancel();
-    // await audioPlayer.stop();
   }
 
   @override

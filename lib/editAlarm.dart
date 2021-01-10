@@ -45,7 +45,6 @@ class _EditAlarmPageState extends State<EditAlarmPage> {
   }
 
   static Future<void> callback(docId, notificationId) async {
-    print("Callback to edit alarm!");
     var now = tz.TZDateTime.now(tz.getLocation('America/Detroit'))
         .add(Duration(seconds: 10));
     cancelAlarm(notificationId);
@@ -138,8 +137,6 @@ class _EditAlarmPageState extends State<EditAlarmPage> {
                       padding: const EdgeInsets.only(top: 20.0),
                       child: buildRemarksField(onChangedRemarks),
                     ),
-                    // TODO: add option to use pattern lock [https://pub.dev/packages/pattern_lock/]
-                    // TODO: generate random password for users
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: buildPasswordField(onChangePassword),
@@ -168,7 +165,6 @@ class _EditAlarmPageState extends State<EditAlarmPage> {
                             'notificationId': notificationId,
                           });
                           callback(widget.documentId, notificationId);
-                          print("id: ${widget.documentId}");
                           Navigator.pop(context);
                         }
                       },

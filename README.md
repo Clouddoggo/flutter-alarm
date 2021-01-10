@@ -14,3 +14,4 @@ An alarm application built with Flutter.
 5. Coming up: Checks for password strength.
 6. Coming up: splash screen.
 7. Coming up: choice of sound for ringing.
+8. Nice-to-have: Pattern lock

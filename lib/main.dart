@@ -16,7 +16,6 @@ import 'alarmRing.dart';
 import 'homepage.dart';
 
 // TODO: test on phone
-// TODO: add splash screen
 FlutterLocalNotificationsPlugin localNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
@@ -32,7 +31,7 @@ Future onSelectNotification(String payload) async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await initializeNotifications(localNotificationsPlugin);
+  await initializeNotifications();
   tz.initializeTimeZones();
   runApp(MyApp());
 }

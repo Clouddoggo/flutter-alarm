@@ -34,7 +34,15 @@ TextFormField buildPasswordField(Function onChangedPassword) {
       if (value.isEmpty || value.trim().length < 1) {
         return 'Password cannot be empty';
       } else if (value.trim().length < 10) {
-        return "Password requires more than 9 characters";
+        return "Password must have more than 11 characters";
+      } else if (!value.contains(new RegExp(r'[A-Z]'))) {
+        return 'Password must contain at least 1 uppercase letter';
+      } else if (!value.contains(new RegExp(r'[a-z]'))) {
+        return 'Password must contain at least 1 lowercase letter';
+      } else if (!value.contains(new RegExp(r'[0-9]'))) {
+        return 'Password must contain at least 1 digit';
+      } else if (!value.contains(new RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+        return 'Password must contain at least 1 of: !@#\$%^&*(),.?:{}|<>';
       }
       return null;
     },

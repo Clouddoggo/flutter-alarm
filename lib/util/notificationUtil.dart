@@ -16,10 +16,19 @@ final BehaviorSubject<ReceivedNotification> didReceiveLocalNotificationSubject =
 final BehaviorSubject<String> selectNotificationSubject =
     BehaviorSubject<String>();
 
-initializeNotifications(
-    FlutterLocalNotificationsPlugin localNotificationsPlugin) async {
-  var initializeAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
-  var initSettings = InitializationSettings(android: initializeAndroid);
+initializeNotifications() async {
+  var initialiseAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
+  final IOSInitializationSettings initialiseIOS = IOSInitializationSettings(
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
+      onDidReceiveLocalNotification:
+          (int id, String title, String body, String payload) async {
+        didReceiveLocalNotificationSubject.add(ReceivedNotification(
+            id: id, title: title, body: body, payload: payload));
+      });
+  var initSettings =
+      InitializationSettings(android: initialiseAndroid, iOS: initialiseIOS);
   await localNotificationsPlugin.initialize(initSettings,
       onSelectNotification: onSelectNotification);
 
@@ -55,4 +64,15 @@ Future singleNotification(
 
 Future<void> cancelAlarm(int id) async {
   await localNotificationsPlugin.cancel(id);
+}
+
+void requestPermissions() {
+  localNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin>()
+      ?.requestPermissions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
 }

@@ -33,6 +33,7 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
         (Timer t) => _getDateTime());
     _configureSelectNotificationSubject();
     _configureDidReceiveLocalNotificationSubject();
+    requestPermissions();
   }
 
   void _getDateTime() {

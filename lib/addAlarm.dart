@@ -17,7 +17,6 @@ class AddAlarmPage extends StatefulWidget {
   _AddAlarmPageState createState() => _AddAlarmPageState();
 }
 
-// TODO: add regex check to ensure password is annoying
 class _AddAlarmPageState extends State<AddAlarmPage> {
   final _formKey = GlobalKey<FormState>();
   String _dateString, _timeString;
@@ -29,7 +28,7 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
   static Future<void> callback(docId, notificationId) async {
     print("Callback to fire alarm!!");
     var now = tz.TZDateTime.now(tz.getLocation('America/Detroit'))
-        .add(Duration(seconds: 15));
+        .add(Duration(seconds: 10));
     await singleNotification(localNotificationsPlugin, now, "Notification",
         "testing", notificationId, docId);
   }
@@ -122,8 +121,6 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                       padding: const EdgeInsets.only(top: 20.0),
                       child: buildRemarksField(onChangedRemarks),
                     ),
-                    // TODO: add option to use pattern lock [https://pub.dev/packages/pattern_lock/]
-                    // TODO: generate random password for users
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: buildPasswordField(onChangePassword),

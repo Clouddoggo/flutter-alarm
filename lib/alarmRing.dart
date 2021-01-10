@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_alarm/storage.dart';
@@ -32,15 +34,12 @@ class _AlarmRingPageState extends State<AlarmRingPage> {
             DateFormat.jm().format(document.get('time').toDate()).toString();
       });
     });
-
-    // await audioPlayer.play('https://www.youtube.com/watch?v=jIL2BcXWVSg');
-    Vibration.vibrate(pattern: [500, 1500]);
+    startAudioAndVibrate();
   }
 
-  @override
-  void initState() {
-    super.initState();
-    initialiseDetails();
+  void startAudioAndVibrate() async {
+    // await audioPlayer.play('https://www.youtube.com/watch?v=jIL2BcXWVSg');
+    Vibration.vibrate(pattern: [500, 1500]);
   }
 
   void stopAudioAndVibration() async {
@@ -49,25 +48,31 @@ class _AlarmRingPageState extends State<AlarmRingPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    Future<bool> _exitApp(BuildContext context) {
-      return showDialog(
-            context: context,
-            child: new AlertDialog(
-              title: new Text('Are you attempting to leave the alarm hanging?'),
-              content: new Text(
-                  'Please enter the password correctly before you leave'),
-              actions: <Widget>[
-                new FlatButton(
-                  onPressed: () => Navigator.of(context).pop(false),
-                  child: new Text('OK'),
-                ),
-              ],
-            ),
-          ) ??
-          false;
-    }
+  void initState() {
+    super.initState();
+    initialiseDetails();
+  }
 
+  Future<bool> _exitApp(BuildContext context) {
+    return showDialog(
+          context: context,
+          child: new AlertDialog(
+            title: new Text('Are you attempting to leave the alarm hanging?'),
+            content: new Text(
+                'Please enter the password correctly before you leave'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('OK'),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () => _exitApp(context),
       child: Scaffold(

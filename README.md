@@ -6,12 +6,12 @@ An alarm application built with Flutter.
 
 1. Add an alarm.
 
-   - Fields: alarm name, alarm remarks, date and time, password
+   - Fields: alarm name, alarm remarks, date and time, password.
 
 2. Delete an alarm.
-3. Insistent notification
+3. Insistent notification.
 
-   - Device will keep vibrating and sounding off (if not on mute)
+   - Device will keep vibrating and sounding off (if not on mute).
    - Upon clicking on the notification, user will be directed to a page that plays the ringing on loop until the password is entered correctly. Vibration also carries on until the password is entered correctly.
 
 4. Edit an alarm.
@@ -36,4 +36,4 @@ Android emulator view:
 ## Credits
 Sound file downloaded from *[freesound](https://freesound.org/s/397787/)*.
 
-Font downloaded from *[Google](https://fonts.google.com/)*
+Font downloaded from *[Google](https://fonts.google.com/)*.

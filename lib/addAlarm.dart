@@ -68,95 +68,106 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
       backgroundColor: Color(0xffF1F8FF),
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 25.0),
           child: Form(
             key: _formKey,
-            child: Column(children: [
-              SizedBox(
-                height: 20.0,
-              ),
-              TextButton(
-                onPressed: () {
-                  DatePicker.showDatePicker(
-                    context,
-                    showTitleActions: true,
-                    onConfirm: onConfirmDate,
-                    minTime: DateTime.now(),
-                    maxTime: DateTime.now().add(Duration(days: 14)),
-                  );
-                },
-                child: Text(
-                  _dateString ??
-                      DateFormat.MMMMd().format(DateTime.now()).toString(),
-                  style: TextStyle(color: Colors.blueGrey, fontSize: 18),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  DatePicker.showTimePicker(
-                    context,
-                    showTitleActions: true,
-                    onConfirm: onConfirmTime,
-                    showSecondsColumn: false,
-                  );
-                },
-                child: Text(
-                  _timeString ??
-                      DateFormat.jm().format(DateTime.now()).toString(),
-                  style: TextStyle(color: Colors.amber, fontSize: 60),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 15.0),
-                child: Column(
-                  children: [
-                    buildRemarksField(onChangedRemarks, 'helo'),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child:
-                          buildPasswordField(onChangePassword, 'password test'),
-                    ),
-                    buildPasswordRules(),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    RaisedButton(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          side: BorderSide(color: Colors.green),
-                          borderRadius: BorderRadius.circular(15.0)),
-                      onPressed: () async {
-                        if (_formKey.currentState.validate()) {
-                          int notificationId = Random().nextInt(1000);
-                          var docId = await Storage.addAlarm({
-                            'remarks': _remarks,
-                            'date': _date ?? DateTime.now(),
-                            'time': _time ?? DateTime.now(),
-                            'password': _password,
-                            'notificationId': notificationId,
-                          });
-                          callback(docId, notificationId);
-                          print("id: $docId");
-                          Navigator.pop(context);
-                        }
-                      },
-                      child: Text(
-                        'Save',
-                        style: TextStyle(
-                          color: Colors.green,
-                          fontWeight: FontWeight.w500,
+            child: CustomScrollView(
+              slivers: [
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            DatePicker.showDatePicker(
+                              context,
+                              showTitleActions: true,
+                              onConfirm: onConfirmDate,
+                              minTime: DateTime.now(),
+                              maxTime: DateTime.now().add(Duration(days: 14)),
+                            );
+                          },
+                          child: Text(
+                            _dateString ??
+                                DateFormat.MMMMd()
+                                    .format(DateTime.now())
+                                    .toString(),
+                            style:
+                                TextStyle(color: Colors.blueGrey, fontSize: 18),
+                          ),
                         ),
-                      ),
-                    ),
-                    buildCancelButton(context),
-                  ],
-                ),
-              ),
-            ]),
+                        TextButton(
+                          onPressed: () {
+                            DatePicker.showTimePicker(
+                              context,
+                              showTitleActions: true,
+                              onConfirm: onConfirmTime,
+                              showSecondsColumn: false,
+                            );
+                          },
+                          child: Text(
+                            _timeString ??
+                                DateFormat.jm()
+                                    .format(DateTime.now())
+                                    .toString(),
+                            style: TextStyle(color: Colors.amber, fontSize: 60),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15.0),
+                          child: Column(
+                            children: [
+                              buildRemarksField(onChangedRemarks),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 20.0),
+                                child: buildPasswordField(onChangePassword),
+                              ),
+                              buildPasswordRules(),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            RaisedButton(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  side: BorderSide(color: Colors.green),
+                                  borderRadius: BorderRadius.circular(15.0)),
+                              onPressed: () async {
+                                if (_formKey.currentState.validate()) {
+                                  int notificationId = Random().nextInt(1000);
+                                  var docId = await Storage.addAlarm({
+                                    'remarks': _remarks,
+                                    'date': _date ?? DateTime.now(),
+                                    'time': _time ?? DateTime.now(),
+                                    'password': _password,
+                                    'notificationId': notificationId,
+                                  });
+                                  callback(docId, notificationId);
+                                  print("id: $docId");
+                                  Navigator.pop(context);
+                                }
+                              },
+                              child: Text(
+                                'Save',
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            buildCancelButton(context),
+                          ],
+                        ),
+                      ]),
+                )
+              ],
+            ),
           ),
         ),
       ),

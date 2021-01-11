@@ -19,8 +19,8 @@ RaisedButton buildCancelButton(BuildContext context) {
   );
 }
 
-TextFormField buildPasswordField(
-    Function onChangedPassword, String initialValue) {
+TextFormField buildPasswordField(Function onChangedPassword,
+    {String initialValue}) {
   return TextFormField(
     initialValue: initialValue,
     decoration: InputDecoration(
@@ -52,8 +52,8 @@ TextFormField buildPasswordField(
   );
 }
 
-TextFormField buildRemarksField(
-    Function onChangedRemarks, String initialValue) {
+TextFormField buildRemarksField(Function onChangedRemarks,
+    {String initialValue}) {
   return TextFormField(
     initialValue: initialValue,
     decoration: InputDecoration(

@@ -1,12 +1,12 @@
 import 'dart:async';
 
+import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_alarm/storage.dart';
 import 'package:intl/intl.dart';
 import 'package:vibration/vibration.dart';
-import 'package:audioplayers/audio_cache.dart';
 
 class AlarmRingPage extends StatefulWidget {
   AlarmRingPage({Key key, this.payload}) : super(key: key);
@@ -20,14 +20,13 @@ class AlarmRingPage extends StatefulWidget {
 // TODO: detect home & lock button
 class _AlarmRingPageState extends State<AlarmRingPage> {
   final _formKey = GlobalKey<FormState>();
-  AudioCache player = AudioCache(prefix: 'assets/audio/');
-  AudioPlayer advancedPlayer = AudioPlayer();
-  String _name, _remarks, _password, _dateString, _timeString;
+  final player = AudioCache();
+  AudioPlayer advancedPlayer;
+  String _remarks, _password, _dateString, _timeString;
 
   void initialiseDetails() async {
     await Storage.getAlarmDetails(widget.payload).then((document) {
       setState(() {
-        this._name = document.get('name');
         this._remarks = document.get('remarks');
         this._password = document.get('password');
         this._dateString =
@@ -40,12 +39,14 @@ class _AlarmRingPageState extends State<AlarmRingPage> {
   }
 
   void startAudioAndVibrate() async {
-    await Vibration.vibrate(duration: 4000);
-    await player.play('sound1.wav');
+    await Vibration.vibrate(duration: 10000);
+    await player.load('sound1.wav');
+    advancedPlayer = await player.loop('sound1.wav');
   }
 
   void stopAudioAndVibration() async {
     await Vibration.cancel();
+    await advancedPlayer?.stop();
     player.clearCache();
   }
 
@@ -89,22 +90,13 @@ class _AlarmRingPageState extends State<AlarmRingPage> {
                   Text(
                     " $_dateString ",
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 22,
                     ),
                   ),
                   Text(
                     " $_timeString ",
                     style: TextStyle(
                       fontSize: 30,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Text(
-                      " $_name ",
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
                     ),
                   ),
                   Text(

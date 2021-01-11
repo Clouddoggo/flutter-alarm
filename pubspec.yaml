@@ -45,3 +45,5 @@ flutter:
     - family: JosefinSans
       fonts:
         - asset: assets/fonts/JosefinSans-Regular.ttf
+  assets:
+    - assets/sound1.wav

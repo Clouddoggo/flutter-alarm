@@ -27,9 +27,11 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
 
   static Future<void> callback(docId, notificationId) async {
     print("Callback to fire alarm!!");
-    var now = tz.TZDateTime.now(
-            tz.getLocation(await FlutterNativeTimezone.getLocalTimezone()))
+    var now = tz.TZDateTime.now(tz.getLocation('America/Detroit'))
         .add(Duration(seconds: 10));
+    // var now = tz.TZDateTime.now(
+    //         tz.getLocation(await FlutterNativeTimezone.getLocalTimezone()))
+    //     .add(Duration(seconds: 10));
     await singleNotification(localNotificationsPlugin, now, "Notification",
         "testing", notificationId, docId);
   }

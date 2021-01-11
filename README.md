@@ -19,6 +19,12 @@ An alarm application built with Flutter.
 6. Nice-to-have: choice of sound for ringing.
 7. Nice-to-have: Pattern lock
 
+
+## Note
+
+1. Testing has only been done for Android and not iOS.
+2. Lock, home and volume buttons are not locked when user lands on alarm ringing page.
+
 Android emulator view:
 
 ![](./assets/images/alarmsView.PNG)

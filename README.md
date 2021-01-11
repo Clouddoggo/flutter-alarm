@@ -35,4 +35,5 @@ Android emulator view:
 
 ## Credits
 Sound file downloaded from *[freesound](https://freesound.org/s/397787/)*.
+
 Font downloaded from *[Google](https://fonts.google.com/)*

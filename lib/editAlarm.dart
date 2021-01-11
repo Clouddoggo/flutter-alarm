@@ -23,14 +23,12 @@ class _EditAlarmPageState extends State<EditAlarmPage> {
   final _formKey = GlobalKey<FormState>();
   String _dateString, _timeString;
   DateTime _date, _time;
-  String _name;
   String _remarks;
   String _password;
 
   void inititaliseDetails() async {
     await Storage.getAlarmDetails(widget.documentId).then((document) {
       setState(() {
-        this._name = document.get('name');
         this._remarks = document.get('remarks');
         this._password = document.get('password');
         this._date = document.get('date').toDate();
@@ -63,12 +61,6 @@ class _EditAlarmPageState extends State<EditAlarmPage> {
   void onChangedRemarks(value) => {
         setState(() {
           this._remarks = value;
-        })
-      };
-
-  void onChangedName(value) => {
-        setState(() {
-          this._name = value;
         })
       };
 
@@ -134,14 +126,12 @@ class _EditAlarmPageState extends State<EditAlarmPage> {
                 padding: const EdgeInsets.only(top: 15.0),
                 child: Column(
                   children: [
-                    buildNameField(onChangedName),
+                    buildRemarksField(
+                        onChangedRemarks, 'testing: ' + this._remarks),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
-                      child: buildRemarksField(onChangedRemarks),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: buildPasswordField(onChangePassword),
+                      child:
+                          buildPasswordField(onChangePassword, this._password),
                     ),
                     buildPasswordRules(),
                   ],
@@ -160,7 +150,6 @@ class _EditAlarmPageState extends State<EditAlarmPage> {
                         if (_formKey.currentState.validate()) {
                           int notificationId = Random().nextInt(1000);
                           Storage.updateAlarm(widget.documentId, {
-                            'name': _name,
                             'remarks': _remarks,
                             'date': _date ?? DateTime.now(),
                             'time': _time ?? DateTime.now(),

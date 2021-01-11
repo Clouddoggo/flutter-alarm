@@ -23,3 +23,7 @@ Android emulator view:
 
 ![](./assets/images/alarmsView.PNG)
 ![](./assets/images/settingsView.PNG)
+
+## Credits
+Sound file downloaded from *[freesound](https://freesound.org/s/397787/)*.
+Font downloaded from *[Google](https://fonts.google.com/)*

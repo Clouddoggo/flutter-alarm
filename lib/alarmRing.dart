@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_alarm/storage.dart';
 import 'package:intl/intl.dart';
 import 'package:vibration/vibration.dart';
+import 'package:audioplayers/audio_cache.dart';
 
 class AlarmRingPage extends StatefulWidget {
   AlarmRingPage({Key key, this.payload}) : super(key: key);
@@ -18,6 +20,8 @@ class AlarmRingPage extends StatefulWidget {
 // TODO: detect home & lock button
 class _AlarmRingPageState extends State<AlarmRingPage> {
   final _formKey = GlobalKey<FormState>();
+  AudioCache player = AudioCache(prefix: 'assets/audio/');
+  AudioPlayer advancedPlayer = AudioPlayer();
   String _name, _remarks, _password, _dateString, _timeString;
 
   void initialiseDetails() async {
@@ -35,13 +39,14 @@ class _AlarmRingPageState extends State<AlarmRingPage> {
     startAudioAndVibrate();
   }
 
-  void startAudioAndVibrate() {
-    Vibration.vibrate(
-        pattern: [400, 1200, 300, 1500, 200, 2000], duration: 1000);
+  void startAudioAndVibrate() async {
+    await Vibration.vibrate(duration: 4000);
+    await player.play('sound1.wav');
   }
 
-  void stopAudioAndVibration() {
-    Vibration.cancel();
+  void stopAudioAndVibration() async {
+    await Vibration.cancel();
+    player.clearCache();
   }
 
   @override

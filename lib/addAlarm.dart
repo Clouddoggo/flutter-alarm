@@ -22,7 +22,6 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
   final _formKey = GlobalKey<FormState>();
   String _dateString, _timeString;
   DateTime _date, _time;
-  String _name;
   String _remarks;
   String _password;
 
@@ -44,12 +43,6 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
   void onChangedRemarks(value) => {
         setState(() {
           this._remarks = value;
-        })
-      };
-
-  void onChangedName(value) => {
-        setState(() {
-          this._name = value;
         })
       };
 
@@ -117,14 +110,11 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                 padding: const EdgeInsets.only(top: 15.0),
                 child: Column(
                   children: [
-                    buildNameField(onChangedName),
+                    buildRemarksField(onChangedRemarks, 'helo'),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
-                      child: buildRemarksField(onChangedRemarks),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: buildPasswordField(onChangePassword),
+                      child:
+                          buildPasswordField(onChangePassword, 'password test'),
                     ),
                     buildPasswordRules(),
                   ],
@@ -143,7 +133,6 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                         if (_formKey.currentState.validate()) {
                           int notificationId = Random().nextInt(1000);
                           var docId = await Storage.addAlarm({
-                            'name': _name,
                             'remarks': _remarks,
                             'date': _date ?? DateTime.now(),
                             'time': _time ?? DateTime.now(),

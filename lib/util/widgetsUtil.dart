@@ -19,8 +19,10 @@ RaisedButton buildCancelButton(BuildContext context) {
   );
 }
 
-TextFormField buildPasswordField(Function onChangedPassword) {
+TextFormField buildPasswordField(
+    Function onChangedPassword, String initialValue) {
   return TextFormField(
+    initialValue: initialValue,
     decoration: InputDecoration(
       labelText: 'Password',
       labelStyle: TextStyle(
@@ -50,8 +52,10 @@ TextFormField buildPasswordField(Function onChangedPassword) {
   );
 }
 
-TextFormField buildRemarksField(Function onChangedRemarks) {
+TextFormField buildRemarksField(
+    Function onChangedRemarks, String initialValue) {
   return TextFormField(
+    initialValue: initialValue,
     decoration: InputDecoration(
       labelText: 'Remarks',
       labelStyle: TextStyle(
@@ -62,27 +66,6 @@ TextFormField buildRemarksField(Function onChangedRemarks) {
       isDense: true,
     ),
     onChanged: onChangedRemarks,
-  );
-}
-
-TextFormField buildNameField(Function onChangedName) {
-  return TextFormField(
-    decoration: InputDecoration(
-      labelText: 'Name',
-      labelStyle: TextStyle(
-        fontSize: 13,
-      ),
-      enabledBorder:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-      isDense: true,
-    ),
-    validator: (value) {
-      if (value.isEmpty || value.trim().length < 1) {
-        return 'Please enter some text';
-      }
-      return null;
-    },
-    onChanged: onChangedName,
   );
 }
 

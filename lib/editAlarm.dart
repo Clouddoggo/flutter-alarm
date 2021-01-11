@@ -139,7 +139,7 @@ class _EditAlarmPageState extends State<EditAlarmPage> {
                           child: Column(
                             children: [
                               buildRemarksField(onChangedRemarks,
-                                  initialValue: 'testing: ${this._remarks}'),
+                                  initialValue: this._remarks),
                               Padding(
                                 padding: const EdgeInsets.only(top: 20.0),
                                 child: buildPasswordField(onChangePassword,

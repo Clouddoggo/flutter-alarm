@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatelessWidget {
   _launchURL() async {
-    const url = "https://github.com/Clouddoggo/AnnoyingAlarm/issues";
+    const url = "https://github.com/Clouddoggo/flutter-alarm/issues";
 
     if (await canLaunch(url)) {
       await launch(url);

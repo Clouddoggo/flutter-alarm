@@ -16,9 +16,12 @@ An alarm application built with Flutter.
 
 4. Edit an alarm.
 5. Checks for password 'strength'. Passwords must contain at least 1 uppercase letter, 1 lowercase letter, 1 digit and 1 special character.
-6. Nice-to-have: choice of sound for ringing.
-7. Nice-to-have: Pattern lock
 
+## Features that might be added
+
+1. Choice of sound when alarm rings.
+2. Pattern lock.
+3. Alarm sharing over WiFi (i.e. sending alarms over WiFi to synced contacts).
 
 ## Note
 

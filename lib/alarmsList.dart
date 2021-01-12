@@ -177,7 +177,6 @@ class _AlarmsListPageState extends State<AlarmsListPage> {
   void _configureDidReceiveLocalNotificationSubject() {
     didReceiveLocalNotificationSubject.stream
         .listen((ReceivedNotification receivedNotification) async {
-      print("listening2");
       await showDialog(
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(

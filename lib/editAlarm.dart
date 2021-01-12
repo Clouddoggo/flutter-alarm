@@ -43,13 +43,13 @@ class _EditAlarmPageState extends State<EditAlarmPage> {
     inititaliseDetails();
   }
 
-  static Future<void> callback(docId, notificationId) async {
+  Future<void> callback(docId, notificationId, remarks) async {
     var now = tz.TZDateTime.now(
             tz.getLocation(await FlutterNativeTimezone.getLocalTimezone()))
         .add(Duration(seconds: 10));
     cancelAlarm(notificationId);
-    await singleNotification(localNotificationsPlugin, now, "Notification",
-        "testing", notificationId, docId);
+    await singleNotification(localNotificationsPlugin, now, "Flutter alarm",
+        remarks, notificationId, docId);
   }
 
   void onChangePassword(value) => {
@@ -95,7 +95,6 @@ class _EditAlarmPageState extends State<EditAlarmPage> {
                                       .format(_date)
                                       .toString();
                                 });
-                                print('confirm $date');
                               },
                               minTime: DateTime.now(),
                               maxTime: DateTime.now().add(Duration(days: 14)),
@@ -121,7 +120,6 @@ class _EditAlarmPageState extends State<EditAlarmPage> {
                                   _timeString =
                                       DateFormat.jm().format(_time).toString();
                                 });
-                                print('confirm $time');
                               },
                               showSecondsColumn: false,
                             );

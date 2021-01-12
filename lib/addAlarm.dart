@@ -25,15 +25,12 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
   String _remarks;
   String _password;
 
-  static Future<void> callback(docId, notificationId) async {
-    print("Callback to fire alarm!!");
-    var now = tz.TZDateTime.now(tz.getLocation('America/Detroit'))
+  static Future<void> callback(docId, notificationId, remarks) async {
+    var now = tz.TZDateTime.now(
+            tz.getLocation(await FlutterNativeTimezone.getLocalTimezone()))
         .add(Duration(seconds: 10));
-    // var now = tz.TZDateTime.now(
-    //         tz.getLocation(await FlutterNativeTimezone.getLocalTimezone()))
-    //     .add(Duration(seconds: 10));
-    await singleNotification(localNotificationsPlugin, now, "Notification",
-        "testing", notificationId, docId);
+    await singleNotification(localNotificationsPlugin, now, "Flutter alarm",
+        remarks, notificationId, docId);
   }
 
   void onChangePassword(value) => {
@@ -53,7 +50,6 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
       _time = time;
       _timeString = DateFormat.jm().format(_time).toString();
     });
-    print('confirm $time');
   }
 
   void onConfirmDate(date) {
@@ -61,7 +57,6 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
       _date = date;
       _dateString = DateFormat.MMMMd().format(_date).toString();
     });
-    print('confirm $date');
   }
 
   @override
@@ -150,8 +145,8 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                                     'password': _password,
                                     'notificationId': notificationId,
                                   });
-                                  callback(docId, notificationId);
-                                  print("id: $docId");
+                                  callback(
+                                      docId, notificationId, this._remarks);
                                   Navigator.pop(context);
                                 }
                               },

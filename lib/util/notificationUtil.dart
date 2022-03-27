@@ -46,7 +46,6 @@ Future singleNotification(
   var androidChannel = AndroidNotificationDetails(
     'channel-id',
     'channel-name',
-    'channel-description',
     importance: Importance.max,
     priority: Priority.high,
     ticker: 'ticker',

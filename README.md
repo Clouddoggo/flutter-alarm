@@ -1,6 +1,6 @@
 # flutter_alarm
 
-An alarm application built with Flutter.
+An alarm application built with Flutter and Firebase.
 
 ## Features
 
@@ -11,8 +11,8 @@ An alarm application built with Flutter.
 2. Delete an alarm.
 3. Insistent notification.
 
-   - Device will keep vibrating and sounding off (if not on mute).
-   - Upon clicking on the notification, user will be directed to a page that plays the ringing on loop until the password is entered correctly. Vibration also carries on until the password is entered correctly.
+   - Device will keep vibrating and ringing.
+   - Upon clicking on the notification, user will be directed to a page that plays the ringing on loop until the password is entered correctly. Vibration is persistent  until the password is entered correctly.
 
 4. Edit an alarm.
 5. Checks for password 'strength'. Passwords must contain at least 1 uppercase letter, 1 lowercase letter, 1 digit and 1 special character.
@@ -26,7 +26,6 @@ An alarm application built with Flutter.
 ## Note
 
 1. Testing has only been done for Android and not iOS.
-2. Lock, home and volume buttons are not locked when user lands on alarm ringing page.
 
 Android emulator view:
 

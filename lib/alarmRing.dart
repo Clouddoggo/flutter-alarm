@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +45,7 @@ class _AlarmRingPageState extends State<AlarmRingPage> {
   void stopAudioAndVibration() async {
     await Vibration.cancel();
     await advancedPlayer?.stop();
-    player.clearCache();
+    player.clearAll();
   }
 
   @override
@@ -56,10 +54,15 @@ class _AlarmRingPageState extends State<AlarmRingPage> {
     initialiseDetails();
   }
 
-  Future<bool> _exitApp(BuildContext context) {
+  Future<bool> _exitApp(BuildContext context) async {
+
     return showDialog(
-          context: context,
-          child: new AlertDialog(
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.5),
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(builder: (thisLowerContext, innerSetState) {
+          return AlertDialog(
             title: new Text('Are you attempting to leave the alarm hanging?'),
             content: new Text(
                 'Please enter the password correctly before you leave'),
@@ -69,9 +72,10 @@ class _AlarmRingPageState extends State<AlarmRingPage> {
                 child: new Text('OK'),
               ),
             ],
-          ),
-        ) ??
-        false;
+          );
+        });
+      },
+    ) ?? false;
   }
 
   @override

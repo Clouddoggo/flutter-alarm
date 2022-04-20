@@ -168,7 +168,7 @@ class _EditAlarmPageState extends State<EditAlarmPage> {
                                     'password': _password,
                                     'notificationId': notificationId,
                                   });
-                                  callback(widget.documentId, notificationId);
+                                  callback(widget.documentId, notificationId, _remarks);
                                   Navigator.pop(context);
                                 }
                               },
